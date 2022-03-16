@@ -1,0 +1,40 @@
+version: "3"
+services:
+
+  client:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - mern-network
+    volumes:
+      - ./client/src:/usr/app/src
+      - ./client/public:/usr/app/public
+    depends_on:
+      - server
+    environment:
+      - REACT_APP_SERVER=http://localhost:6000
+      - CHOKIDAR_USEPOLLING=true
+    command: npm start
+    stdin_open: true
+    tty: true
+  
+  server:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - 6000:6000
+    networks:
+      - mern-network
+    volumes:
+      - ./server/src:/usr/app/src
+    environment:
+      - CLIENT=http://localhost:3000
+    command: /usr/app/node_modules/.bin/nodemon -L index.js
+
+networks:
+  mern-network:
+    driver: bridge
