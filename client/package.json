@@ -14,7 +14,7 @@
     "twind": "^0.16.16",
     "web-vitals": "^2.1.4"
   },
-  "proxy": "http://server:6000",
+  "proxy": "http://localhost:6000",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
